@@ -82,25 +82,26 @@ public class Problem1 {
 
     public static void main(String[] args) throws IOException {
         int a, b, c, d;
-        // reading from file, very similar to read from System.in
-        // Java try-with-resources Statement
-        // How to read from a file similar to read from console. Remember this!
-        try (Scanner in = new Scanner(new File("paint.in"))) {
-            // Rest is pretty much same as reading from console.
-            a = in.nextInt();
-            b = in.nextInt();
-            c = in.nextInt();
-            d = in.nextInt();
-        }
+        // reading from file, very similar to read from console
+        // Remember this!
+        Scanner in = new Scanner(new File("paint.in"));
+        // Rest is pretty much same as reading from console.
+        a = in.nextInt();
+        b = in.nextInt();
+        c = in.nextInt();
+        d = in.nextInt();
+        in.close(); // you need to close the Scanner, it reads from file.
+        // close operation will free up resources allocation for file reading.
 
         int length = new Problem1().lengthPaint(a, b, c, d);
-        // writing to the file, similar API to write to the console.
+
         // System.out (console output) type is java.io.PrintStream
-        // How to write to a file similar to print to console. Remember this!
-        try (PrintStream out = new PrintStream(new File("paint.out"))) {
-            // Rest is similar to output to console.
-            out.println(length);
-        }
+        // Write to a file similar to print to console. Remember this!
+        PrintStream out = new PrintStream(new File("paint.out"));
+        // Rest is similar to output to console.
+        out.println(length);
+        out.close(); // you need to close the PrintStream. It will flush the
+        // content to the disk, and free up the resource.
     }
 
 }

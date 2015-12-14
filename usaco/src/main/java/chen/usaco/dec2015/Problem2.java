@@ -100,9 +100,9 @@ public class Problem2 {
      * @return
      */
     public int getMaxOverSpeed(int[][] speedLimits, int[][] drivingSpeeds) {
-        /*-
-		 * Change from segment length to distance to the origin. 
-		 */
+        /**
+         * Change from segment length to distance to the origin.
+         */
         // Break up big chunk of code into smaller method,
         // and method name should be very descriptive.
         convertFromLengthToMilage(speedLimits);
@@ -169,27 +169,28 @@ public class Problem2 {
     public static void main(String[] args) throws IOException {
         int N, M;
         int[][] speedLimits, drivingSpeeds;
-        try (Scanner scanner = new Scanner(new File("speeding.in"))) {
-            N = scanner.nextInt();
-            M = scanner.nextInt();
 
-            speedLimits = new int[N][2];
-            for (int i = 0; i < speedLimits.length; i++) {
-                speedLimits[i][0] = scanner.nextInt();
-                speedLimits[i][1] = scanner.nextInt();
-            }
+        Scanner scanner = new Scanner(new File("speeding.in"));
+        N = scanner.nextInt();
+        M = scanner.nextInt();
 
-            drivingSpeeds = new int[M][2];
-            for (int i = 0; i < drivingSpeeds.length; i++) {
-                drivingSpeeds[i][0] = scanner.nextInt();
-                drivingSpeeds[i][1] = scanner.nextInt();
-            }
+        speedLimits = new int[N][2];
+        for (int i = 0; i < speedLimits.length; i++) {
+            speedLimits[i][0] = scanner.nextInt();
+            speedLimits[i][1] = scanner.nextInt();
         }
+
+        drivingSpeeds = new int[M][2];
+        for (int i = 0; i < drivingSpeeds.length; i++) {
+            drivingSpeeds[i][0] = scanner.nextInt();
+            drivingSpeeds[i][1] = scanner.nextInt();
+        }
+        scanner.close();
 
         int maxOverSpeed = new Problem2().getMaxOverSpeed(speedLimits, drivingSpeeds);
 
-        try (PrintStream out = new PrintStream(new File("speeding.out"))) {
-            out.println(maxOverSpeed);
-        }
+        PrintStream out = new PrintStream(new File("speeding.out"));
+        out.println(maxOverSpeed);
+        out.close();
     }
 }
