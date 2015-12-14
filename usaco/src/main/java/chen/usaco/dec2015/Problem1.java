@@ -40,67 +40,67 @@ import java.util.Scanner;
  */
 public class Problem1 {
 
-	/*-
-	 * Check the relationship between two ranges [a, b], [c, d]
-	 * 
-	 * They can be 
-	 * a < b <= c < d - no overlap, length = (b - a) + (d - c)
-	 * c < d <= a < d - no overlap, length = (b - a) + (d - c)
-	 * 
-	 * a < c < b < d - overlap b -c, length = (b - a) + (d - c) - (b -c)
-	 * a < c < d <= b - [a, b] includes [c, d], length = (d - c)
-	 * 
-	 * c < a < b < d - [c, d] includes [a, b], length = (b - a) + (d - c) - (d - a)
-	 * c < a < d < b - overlap (d - a), length = (d - a)
-	 */
-	// define the problem to be solved.
-	public int lengthPaint(int a, int b, int c, int d) {
-		// [a, b] [c, d] not overlap
-		if (b < c || a > d) {
-			return (b - a) + (d - c);
+    /*-
+     * Check the relationship between two ranges [a, b], [c, d]
+     *
+     * They can be
+     * a < b <= c < d - no overlap, length = (b - a) + (d - c)
+     * c < d <= a < d - no overlap, length = (b - a) + (d - c)
+     *
+     * a < c < b < d - overlap b -c, length = (b - a) + (d - c) - (b -c)
+     * a < c < d <= b - [a, b] includes [c, d], length = (d - c)
+     *
+     * c < a < b < d - [c, d] includes [a, b], length = (b - a) + (d - c) - (d - a)
+     * c < a < d < b - overlap (d - a), length = (d - a)
+     */
+    // define the problem to be solved.
+    public int lengthPaint(int a, int b, int c, int d) {
+        // [a, b] [c, d] not overlap
+        if (b < c || a > d) {
+            return (b - a) + (d - c);
 
-			// Following are overlap cases.
-		} else if (a < c) {
-			// [a, b] includes [c, d]
-			if (b >= d) {
-				return (b - a);
-			} else {
-				// [b, c] overlaps
-				return (b - a) + (d - c) - (b - c);
-			}
+            // Following are overlap cases.
+        } else if (a < c) {
+            // [a, b] includes [c, d]
+            if (b >= d) {
+                return (b - a);
+            } else {
+                // [b, c] overlaps
+                return (b - a) + (d - c) - (b - c);
+            }
 
-		} else { // a >= c
-			// [b, d] includes [a, b]
-			if (b <= d) {
-				return (d - c);
-			} else {
-				// [d, a] overlaps
-				return (b - a) + (d - c) - (d - a);
-			}
-		}
-	}
+        } else { // a >= c
+            // [b, d] includes [a, b]
+            if (b <= d) {
+                return (d - c);
+            } else {
+                // [d, a] overlaps
+                return (b - a) + (d - c) - (d - a);
+            }
+        }
+    }
 
-	public static void main(String[] args) throws IOException {
-		int a, b, c, d;
-		// reading from file, very similar to read from System.in
-		// Java try-with-resources Statement
-		// How to read from a file similar to read from console. Remember this!
-		try (Scanner in = new Scanner(new File("paint.in"))) {
-			// Rest is pretty much same as reading from console.
-			a = in.nextInt();
-			b = in.nextInt();
-			c = in.nextInt();
-			d = in.nextInt();
-		}
+    public static void main(String[] args) throws IOException {
+        int a, b, c, d;
+        // reading from file, very similar to read from System.in
+        // Java try-with-resources Statement
+        // How to read from a file similar to read from console. Remember this!
+        try (Scanner in = new Scanner(new File("paint.in"))) {
+            // Rest is pretty much same as reading from console.
+            a = in.nextInt();
+            b = in.nextInt();
+            c = in.nextInt();
+            d = in.nextInt();
+        }
 
-		int length = new Problem1().lengthPaint(a, b, c, d);
-		// writing to the file, similar API to write to the console.
-		// System.out (console output) type is java.io.PrintStream
-		// How to write to a file similar to print to console. Remember this!
-		try (PrintStream out = new PrintStream(new File("paint.out"))) {
-			// Rest is similar to output to console.
-			out.println(length);
-		}
-	}
+        int length = new Problem1().lengthPaint(a, b, c, d);
+        // writing to the file, similar API to write to the console.
+        // System.out (console output) type is java.io.PrintStream
+        // How to write to a file similar to print to console. Remember this!
+        try (PrintStream out = new PrintStream(new File("paint.out"))) {
+            // Rest is similar to output to console.
+            out.println(length);
+        }
+    }
 
 }

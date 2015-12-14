@@ -71,125 +71,125 @@ import java.util.Scanner;
  * Problem credits: Austin Bannister and Brian Dean
  */
 public class Problem2 {
-	/*-
-	 * Algorithm:
-	 * 
-	 * Sample speed limit
-	 * Length SpeedLimit  Length DrivingSpeed
-	 *     40 75              40 76
-	 *     50 35              20 30
-	 *     10 45              40 40
-	 *     
-	 * Convert the index from length to mileage
-	 * Mile SpeedLimit
-	 *   40 75
-	 *   90 35
-	 *  100 45
-	 * 
-	 * Mile DrivingSpeed
-	 *   40 76
-	 *   60 30
-	 *  100 40
-	 *  
-	 * Mile SpeedLimit DrivingSpeed OverSpeed
-	 *   40        75            76         1
-	 *   90        35            30         5
-	 *   60        75            30         0
-	 *  100        45            40         5
-	 *     
-	 * @return
-	 */
-	public int getMaxOverSpeed(int[][] speedLimits, int[][] drivingSpeeds) {
-		/*-
+    /*-
+     * Algorithm:
+     *
+     * Sample speed limit
+     * Length SpeedLimit  Length DrivingSpeed
+     *     40 75              40 76
+     *     50 35              20 30
+     *     10 45              40 40
+     *
+     * Convert the index from length to mileage
+     * Mile SpeedLimit
+     *   40 75
+     *   90 35
+     *  100 45
+     *
+     * Mile DrivingSpeed
+     *   40 76
+     *   60 30
+     *  100 40
+     *
+     * Mile SpeedLimit DrivingSpeed OverSpeed
+     *   40        75            76         1
+     *   90        35            30         5
+     *   60        75            30         0
+     *  100        45            40         5
+     *
+     * @return
+     */
+    public int getMaxOverSpeed(int[][] speedLimits, int[][] drivingSpeeds) {
+        /*-
 		 * Change from segment length to distance to the origin. 
 		 */
-		// Break up big chunk of code into smaller method, 
-		// and method name should be very descriptive.
-		convertFromLengthToMilage(speedLimits);
-		convertFromLengthToMilage(drivingSpeeds);
+        // Break up big chunk of code into smaller method,
+        // and method name should be very descriptive.
+        convertFromLengthToMilage(speedLimits);
+        convertFromLengthToMilage(drivingSpeeds);
 
-		// record points when either speed limit or driving speed changes.
-		int[] mileagePoints = new int[speedLimits.length + drivingSpeeds.length + 1];
-		int mileagePointsIndex = 0;
-		mileagePoints[mileagePointsIndex++] = 0;
+        // record points when either speed limit or driving speed changes.
+        int[] mileagePoints = new int[speedLimits.length + drivingSpeeds.length + 1];
+        int mileagePointsIndex = 0;
+        mileagePoints[mileagePointsIndex++] = 0;
 
-		for (int i = 0; i < speedLimits.length; i++) {
-			// this is a typical idiom to append item to an array
-			mileagePoints[mileagePointsIndex++] = speedLimits[i][0]; 
-		}
+        for (int i = 0; i < speedLimits.length; i++) {
+            // this is a typical idiom to append item to an array
+            mileagePoints[mileagePointsIndex++] = speedLimits[i][0];
+        }
 
-		for (int i = 0; i < drivingSpeeds.length; i++) {
-			mileagePoints[mileagePointsIndex++] = drivingSpeeds[i][0];
-		}
+        for (int i = 0; i < drivingSpeeds.length; i++) {
+            mileagePoints[mileagePointsIndex++] = drivingSpeeds[i][0];
+        }
 
-		// Check each point when speed limit or driving speed changes, to check
-		// the over speed.
-		int maxOverSpeed = 0;
-		for (int i = 0; i < mileagePoints.length; i++) {
-			int overSpeed = getOverSpeed(mileagePoints[i], speedLimits, drivingSpeeds);
-			if (overSpeed > maxOverSpeed) {
-				maxOverSpeed = overSpeed;
-			}
-		}
+        // Check each point when speed limit or driving speed changes, to check
+        // the over speed.
+        int maxOverSpeed = 0;
+        for (int i = 0; i < mileagePoints.length; i++) {
+            int overSpeed = getOverSpeed(mileagePoints[i], speedLimits, drivingSpeeds);
+            if (overSpeed > maxOverSpeed) {
+                maxOverSpeed = overSpeed;
+            }
+        }
 
-		return maxOverSpeed;
-	}
+        return maxOverSpeed;
+    }
 
-	// each method should be focus to handle just one thing.
-	// if it handles more than one thing, try to break it up further.
-	private void convertFromLengthToMilage(int[][] speeds) {
-		for (int i = 1; i < speeds.length; i++) {
-			speeds[i][0] += speeds[i - 1][0];
-		}
-	}
+    // each method should be focus to handle just one thing.
+    // if it handles more than one thing, try to break it up further.
+    private void convertFromLengthToMilage(int[][] speeds) {
+        for (int i = 1; i < speeds.length; i++) {
+            speeds[i][0] += speeds[i - 1][0];
+        }
+    }
 
-	/**
-	 * Calculate the over speed.
-	 */
-	private int getOverSpeed(int mile, int[][] speedLimits, int[][] drivingSpeeds) {
-		int speedDiff = getSpeed(mile, drivingSpeeds) - getSpeed(mile, speedLimits);
-		return Math.max(speedDiff, 0);
-	}
+    /**
+     * Calculate the over speed.
+     */
+    private int getOverSpeed(int mile, int[][] speedLimits, int[][] drivingSpeeds) {
+        int speedDiff = getSpeed(mile, drivingSpeeds) - getSpeed(mile, speedLimits);
+        return Math.max(speedDiff, 0);
+    }
 
-	/**
-	 * Get speed for given mileage point, either speed limit or driving speed.
-	 */
-	// Break the code into methods, also help reuse the same code. In this case, 
-	// the method is used to get both speed limit and driving speed for the given mileage.
-	private int getSpeed(int mile, int[][] speedsIndexedByMileage) {
-		int i = 0;
+    /**
+     * Get speed for given mileage point, either speed limit or driving speed.
+     */
+    // Break the code into methods, also help reuse the same code. In this case,
+    // the method is used to get both speed limit and driving speed for the given mileage.
+    private int getSpeed(int mile, int[][] speedsIndexedByMileage) {
+        int i = 0;
 
-		while (i < speedsIndexedByMileage.length && mile > speedsIndexedByMileage[i][0]) {
-			i++;
-		}
+        while (i < speedsIndexedByMileage.length && mile > speedsIndexedByMileage[i][0]) {
+            i++;
+        }
 
-		return speedsIndexedByMileage[i][1];
-	}
+        return speedsIndexedByMileage[i][1];
+    }
 
-	public static void main(String[] args) throws IOException {
-		int N, M;
-		int[][] speedLimits, drivingSpeeds;
-		try (Scanner scanner = new Scanner(new File("speeding.in"))) {
-			N = scanner.nextInt();
-			M = scanner.nextInt();
+    public static void main(String[] args) throws IOException {
+        int N, M;
+        int[][] speedLimits, drivingSpeeds;
+        try (Scanner scanner = new Scanner(new File("speeding.in"))) {
+            N = scanner.nextInt();
+            M = scanner.nextInt();
 
-			speedLimits = new int[N][2];
-			for (int i = 0; i < speedLimits.length; i++) {
-				speedLimits[i][0] = scanner.nextInt();
-				speedLimits[i][1] = scanner.nextInt();
-			}
+            speedLimits = new int[N][2];
+            for (int i = 0; i < speedLimits.length; i++) {
+                speedLimits[i][0] = scanner.nextInt();
+                speedLimits[i][1] = scanner.nextInt();
+            }
 
-			drivingSpeeds = new int[M][2];
-			for (int i = 0; i < drivingSpeeds.length; i++) {
-				drivingSpeeds[i][0] = scanner.nextInt();
-				drivingSpeeds[i][1] = scanner.nextInt();
-			}
-		}
+            drivingSpeeds = new int[M][2];
+            for (int i = 0; i < drivingSpeeds.length; i++) {
+                drivingSpeeds[i][0] = scanner.nextInt();
+                drivingSpeeds[i][1] = scanner.nextInt();
+            }
+        }
 
-		int maxOverSpeed = new Problem2().getMaxOverSpeed(speedLimits, drivingSpeeds);
+        int maxOverSpeed = new Problem2().getMaxOverSpeed(speedLimits, drivingSpeeds);
 
-		try (PrintStream out = new PrintStream(new File("speeding.out"))) {
-			out.println(maxOverSpeed);
-		}
-	}
+        try (PrintStream out = new PrintStream(new File("speeding.out"))) {
+            out.println(maxOverSpeed);
+        }
+    }
 }
